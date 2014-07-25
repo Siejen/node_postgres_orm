@@ -25,10 +25,14 @@ Person.all = function(callback){
 }
 
 Person.findBy = function(key, val, callback) {
-  db.query("",[val], function(err, res){
-    var foundRow, foundPerson;
-    // do something here with res
-    callback(err, foundPerson);
+//library rule, cannot pass in column name
+  db.query("SELECT * FROM people WHERE " + key + " =$1",[val], function(err, res){
+  // console.log("This is the findBy row console.log");
+  // console.log(res.rows);
+  // do something here with res
+  var foundRow = res.rows[0];
+  var foundPerson = foundRow;
+  callback(err, foundPerson);
   });
 };
 
