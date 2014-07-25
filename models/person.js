@@ -1,6 +1,6 @@
 var db = require('./db');
 
-function Person(params) {
+function Person(params) {            //constructor function
   this.firstname = params.firstname;
   this.lastname = params.lastname;
   this.id = params.id;
@@ -8,9 +8,18 @@ function Person(params) {
 
 
 Person.all = function(callback){
-  db.query("YOUR QUERY HERE",[], function(err, res){
+  db.query("SELECT * FROM people",[], function(err, res){
     var allPeople = [];
     // do something here with res
+    if (err) {
+      console.log("error!")
+    }
+    else {
+      console.log(res.rows);
+      res.rows.forEach(function(personThing) {
+        allPeople.push(new Person(personThing))
+      });
+    } 
     callback(err, allPeople);
   });
 }
@@ -23,13 +32,10 @@ Person.findBy = function(key, val, callback) {
   });
 };
 
-
-
 Person.create = function(params, callback){
-  db.query("INSERT INTO people (firstname, lastname) VALUES ($1,$2)", 
-            [params.firstname, params.lastname], function(err, res){
-                var createdRow, newPerson;
-    callback(err, newPerson);
+  db.query("INSERT INTO people (firstname, lastname) VALUES ($1,$2)", [params.firstname, params.lastname], function(err, res){
+    var createdRow, newPerson;
+    callback(err, res);
   });
 };
 

@@ -1,15 +1,15 @@
+// all the different objects are created here
+
 var Person = require('./person');
 
 var Models = {};
 
 Models.Person = Person;
 
-var me = {firstname: "Bob", lastname: "Frank"};
-Models.Person.create(me, function (err, person) {
-	console.log("Put Bob into the database");
-});
+// just testing stuff
 Models.Person.all(function(err, people){
-  console.log(people);
+	console.log("Output from Person all")
+ 	console.log(people);
 });
 
 // Models.Person.findBy("id", 1, function(err, person){

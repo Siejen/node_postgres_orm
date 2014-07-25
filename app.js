@@ -1,3 +1,5 @@
+// this has all of the routes
+
 var express = require('express'),
   bodyParser = require('body-parser'),
   methodOverride = require('method-override'),
@@ -12,10 +14,10 @@ app.use(bodyParser.urlencoded());
 app.use(methodOverride("_method"));
 
 
-
-
 app.get("/people", function(req, res){
-  res.render("people/index", {people: []})
+  Person.all(function(err,allPeople) {
+    res.render("people/index", {people: allPeople})    
+    });
 });
 
 app.get("/people/new", function(req, res){
