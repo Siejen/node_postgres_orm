@@ -87,17 +87,15 @@ Person.prototype.update = function(params, callback) {
   });
 }
 
-Person.prototype.destroy = function( callback ) {
-  // 
-  console.log( 'Person.prototype.destroy', this.id );
-  db.query("DELETE FROM people WHERE id=$1", [this.id], function(err, res) {
+Person.destroyById = function( id, callback ) {
+  console.log( 'Person.prototype.destroy', id);
+  db.query("DELETE FROM people WHERE id=$1", [id], function(err, res) {
     if (err) {
       console.log(err)
     }
     else {
       console.log(res);
     }
-  
     callback(err)
   });
 }

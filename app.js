@@ -17,7 +17,7 @@ app.use(methodOverride("_method"));
 app.get("/people", function(req, res){
   Person.all(function(err,allPeople) {
     res.render("people/index", {people: allPeople})    
-    });
+  });
 });
 
 app.get("/people/new", function(req, res){
@@ -32,15 +32,24 @@ app.get("/people/:id/edit", function(req,res){
   res.render("people/edit", {person: {} });
 });
 
-
-
 app.post("/people", function(req, res){
+  console.log( req );
+  Person.create(req.body, function(err, res) {
+    console.log(req.body);    
+  });
   res.redirect("/people")
 });
 
-app.delete("/people/:id", function(req, res){
+app.post("/delete/:id", function(req, res) {
+  Person.destroyById(req.params.id, function(err,res) {
+      console.log("deleting", req.params.id);
+  });
   res.redirect("/people");
 });
+
+// app.delete("/people/:id", function(req, res){
+//   res.redirect("/people");
+// });
 
 app.put("/people/:id", function(req,res){
   res.redirect("/people");
