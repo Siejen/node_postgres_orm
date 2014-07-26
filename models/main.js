@@ -6,14 +6,19 @@ var Models = {};
 
 Models.Person = Person;
 
-var newPerson = {
-	firstname: "Siejen",
-	lastname: "Yin"
-}
+// var personParams = {
+// 	firstname: "doesn't matter",
+// 	lastname: "doesn't matter",
+// 	id: 2 // this one matters!!
+// }
 
-// Models.Person.all(function(err,res) {
-// 	console.log(res)
-// });
+// var randomPerson = new Person( personParams );
+
+// randomPerson.destroy( function() {} );
+
+Models.Person.all(function(err,res) {
+	console.log(res)
+});
 
 // Models.Person.findBy("lastname", "Yin", function(err,res) {
 // 	console.log(res);
@@ -23,9 +28,9 @@ var newPerson = {
 // 	// console.log(res)
 // }); 
 
-Models.Person.destroy(function(err,res) {
-	// console.log(res)
-}); 
+// Models.Person.destroy(function(err,res) {
+// 	// console.log(res)
+// }); 
 
 
 
@@ -80,4 +85,4 @@ Models.Person.destroy(function(err,res) {
 // //  	console.log(Deleted);
 // // });
 
-// module.exports = Models;
+module.exports = Models;

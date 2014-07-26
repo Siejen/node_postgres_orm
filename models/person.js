@@ -87,7 +87,9 @@ Person.prototype.update = function(params, callback) {
   });
 }
 
-Person.prototype.destroy = function(){
+Person.prototype.destroy = function( callback ) {
+  // 
+  console.log( 'Person.prototype.destroy', this.id );
   db.query("DELETE FROM people WHERE id=$1", [this.id], function(err, res) {
     if (err) {
       console.log(err)
@@ -99,17 +101,5 @@ Person.prototype.destroy = function(){
     callback(err)
   });
 }
-
-
-
-
-
-
-
-// Person.prototype.destroy = function(key, val, callback){
-//   db.query("DELETE FROM people WHERE " + key + "=$1", [this.id], function(err, res) {
-//     callback(err)
-//   });
-// }
 
 module.exports = Person;
