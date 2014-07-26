@@ -12,34 +12,46 @@ Person.all = function(callback){
     var allPeople = [];
     // do something here with res
     if (err) {
-      console.log("error!")
+      console.log(err)
     }
     else {
-      console.log(res.rows);
-      res.rows.forEach(function(personThing) {
-        allPeople.push(new Person(personThing))
+      // console.log(res.rows);
+      res.rows.forEach(function(sqlPersonRow){
+        allPeople.push(new Person(sqlPersonRow));       
       });
-    } 
+    }
     callback(err, allPeople);
   });
 }
 
 Person.findBy = function(key, val, callback) {
-//library rule, cannot pass in column name
-  db.query("SELECT * FROM people WHERE " + key + " =$1",[val], function(err, res){
-  // console.log("This is the findBy row console.log");
-  // console.log(res.rows);
-  // do something here with res
-  var foundRow = res.rows[0];
-  var foundPerson = foundRow;
-  callback(err, foundPerson);
+//library rule, cannot use $sign notation for column names  
+  db.query("SELECT * FROM people WHERE " + key + " = $1",[val], function(err, res){
+    var foundRow;
+    var foundPerson;
+    // do something here with res
+    if (err) {
+      console.log(err)
+    }
+    else {
+      //console.log(res.rows);
+      foundPerson = res.rows[0];  
+    }
+    callback(err, foundPerson);
   });
 };
 
 Person.create = function(params, callback){
-  db.query("INSERT INTO people (firstname, lastname) VALUES ($1,$2)", [params.firstname, params.lastname], function(err, res){
-    var createdRow, newPerson;
-    callback(err, res);
+  db.query("INSERT INTO people (firstname, lastname) VALUES ($1,$2) RETURNING *", [params.firstname, params.lastname], function(err, res){
+    var createdRow;
+    var newPerson;
+    if(err) {
+      console.log(err);
+    }
+    else {
+      console.log(res.rows);
+    }
+    callback(err, newPerson);
   });
 };
 
@@ -76,9 +88,28 @@ Person.prototype.update = function(params, callback) {
 }
 
 Person.prototype.destroy = function(){
-  db.query("", [this.id], function(err, res) {
+  db.query("DELETE FROM people WHERE id=$1", [this.id], function(err, res) {
+    if (err) {
+      console.log(err)
+    }
+    else {
+      console.log(res);
+    }
+  
     callback(err)
   });
 }
+
+
+
+
+
+
+
+// Person.prototype.destroy = function(key, val, callback){
+//   db.query("DELETE FROM people WHERE " + key + "=$1", [this.id], function(err, res) {
+//     callback(err)
+//   });
+// }
 
 module.exports = Person;
