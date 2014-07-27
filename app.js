@@ -29,7 +29,15 @@ app.get("/people/:id", function(req,res){
 });
 
 app.get("/people/:id/edit", function(req,res){
-  res.render("people/edit", {person: {} });
+  res.render("people/edit", {id: req.params.id});
+});
+
+app.post("/people/update", function(req, res){
+  // console.log( req.body );
+  Person.updateById(req.body.firstname, req.body.lastname, req.body.id, function(err, res) {
+    console.log(req.body);    
+  });
+  res.redirect("/people")
 });
 
 app.post("/people", function(req, res){

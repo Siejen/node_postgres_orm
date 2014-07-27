@@ -3,7 +3,7 @@
 	<head>
 	<style>
 	.personRow {color: green}
-	.personButtons {float: right}
+
 	</style>
 	</head>
 	<body>
@@ -19,9 +19,12 @@
 				<%= person.lastname %>
 				<%= person.id %>
 				<div class="personButtons">
-				<form method="post" action="/delete/<%= person.id %>" >
-      				<button>Delete</button>
-    			</form>
+					<form method="post" action="/delete/<%= person.id %>" >
+      					<button>Delete</button>
+    				</form>
+    				<form method="get" action="/people/<%= person.id%>/edit" >
+      					<button>Update</button>
+    				</form>
     			</div>
 			</div>
 			</li><br/>

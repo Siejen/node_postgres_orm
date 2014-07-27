@@ -8,7 +8,7 @@ function Person(params) {            //constructor function
 
 
 Person.all = function(callback){
-  db.query("SELECT * FROM people",[], function(err, res){
+  db.query("SELECT * FROM people ORDER BY id",[], function(err, res){
     var allPeople = [];
     // do something here with res
     if (err) {
@@ -55,35 +55,48 @@ Person.create = function(params, callback){
   });
 };
 
-Person.prototype.update = function(params, callback) {
-  var colNames = [];
-  var colVals = [];
-  var count = 2;
+// Person.prototype.update = function(params, callback) {
+//   var colNames = [];
+//   var colVals = [];
+//   var count = 2;
 
-  for(var key in this) {
-    if(this.hasOwnProperty(key) && params[key] !== undefined){
-      var colName = key + "=$" + count;
-      colNames.push(colName);
-      colVals.push(params[key]);
-      count++;
-    }
-  }
+//   for(var key in this) {
+//     if(this.hasOwnProperty(key) && params[key] !== undefined){
+//       var colName = key + "=$" + count;
+//       colNames.push(colName);
+//       colVals.push(params[key]);
+//       count++;
+//     }
+//   }
 
-  var statement = "UPDATE people SET " + colNames.join(", ") + " WHERE id=$1 RETURNING *";
-  var values = [this.id].concat(colVals);
-  console.log("Running:");
-  console.log(statement, "with values", values);
-  var _this = this;
-  db.query(statement, values, function(err, res) {
-    var updatedRow;
+//   var statement = "UPDATE people SET " + colNames.join(", ") + " WHERE id=$1 RETURNING *";
+//   var values = [this.id].concat(colVals);
+//   console.log("Running:");
+//   console.log(statement, "with values", values);
+//   var _this = this;
+//   db.query(statement, values, function(err, res) {
+//     var updatedRow;
+//     if(err) {
+//       console.error("OOP! Something went wrong!", err);
+//     } else {
+//       updatedRow = res.rows[0];
+//       _this.firstname = updatedRow.firstname;
+//       _this.lastname = updatedRow.lastname;
+//     }
+//     callback(err, _this)
+//   });
+// }
+
+Person.updateById = function (firstname, lastname, id, callback) {
+  console.log('Person.prototype.update', id);
+  db.query("UPDATE people SET firstname=$1, lastname=$2 WHERE id=$3 RETURNING *", [firstname, lastname, id], function(err,res){
     if(err) {
-      console.error("OOP! Something went wrong!", err);
-    } else {
-      updatedRow = res.rows[0];
-      _this.firstname = updatedRow.firstname;
-      _this.lastname = updatedRow.lastname;
+      console.log(err);
     }
-    callback(err, _this)
+    else {
+      console.log(res);
+    }
+    callback(err);
   });
 }
 
@@ -91,12 +104,12 @@ Person.destroyById = function( id, callback ) {
   console.log( 'Person.prototype.destroy', id);
   db.query("DELETE FROM people WHERE id=$1", [id], function(err, res) {
     if (err) {
-      console.log(err)
+      console.log(err);
     }
     else {
       console.log(res);
     }
-    callback(err)
+    callback(err);
   });
 }
 

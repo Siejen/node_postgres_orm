@@ -16,9 +16,9 @@ Models.Person = Person;
 
 // randomPerson.destroy( function() {} );
 
-Models.Person.all(function(err,res) {
-	console.log(res)
-});
+// Models.Person.all(function(err,res) {
+// 	console.log(res)
+// });
 
 // Models.Person.findBy("lastname", "Yin", function(err,res) {
 // 	console.log(res);
@@ -31,6 +31,13 @@ Models.Person.all(function(err,res) {
 // Models.Person.destroy(function(err,res) {
 // 	// console.log(res)
 // }); 
+
+
+
+// Models.Person.updateById("Siejen", "Yin", 11, function(err,res) {
+// 	// console.log(res)
+// }); 
+
 
 
 
